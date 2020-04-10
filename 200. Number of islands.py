@@ -1,5 +1,5 @@
 # Solution 1: BFS
-# O(mn) O(mn)
+# O(mn) min(m, n)
 from collections import deque
 
 
@@ -79,41 +79,38 @@ class Solution:
 
 # Solution 3: Union Find with path compression and rank
 # O(m * n) O(m * n)
+# Union O(m*n) O(m*n)
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         if not grid or not grid[0]:
             return 0
         m, n = len(grid), len(grid[0])
-        self.islands = sum(grid[i][j] == '1' for i in range(m) for j in range(n))
-        parent = [i for i in range(m * n)]  # each node's index's parent is index
-        rank = [0] * (m * n)
+        self.Islands = sum(grid[i][j] == "1" for i in range(m) for j in range(n))
+        parents = list(range(m * n))
+        ranks = [1] * (m * n)
 
         def find(x):
-            if parent[x] == x:  # path compression
+            if x == parents[x]:
                 return x
-            return find(parent[x])
+            return find(parents[x])
 
-        def union(a, b):  # union with rank: with rules so that path compression can be realized
-            root_a = find(a)
-            root_b = find(b)
-            if root_a != root_b:
-                if rank[root_a] > rank[root_b]:
-                    parent[root_b] = root_a
-                elif rank[root_a] < rank[root_b]:
-                    parent[root_b] = root_a
-                else:
-                    parent[root_b] = root_a
-                    rank[root_a] += 1
-                self.islands -= 1
+        def union(u, v):
+            root_u, root_v = find(u), find(v)
+            if root_u == root_v:
+                return
+            if ranks[root_u] < ranks[root_v]:
+                root_u, root_v = root_v, root_u
+            parents[root_v] = root_u
+            ranks[root_u] += 1
+            self.Islands -= 1
 
         for i in range(m):
             for j in range(n):
-                if grid[i][j] == '0':
-                    continue
-                index = i * n + j
-                if j < n - 1 and grid[i][j + 1] == '1':  # union right hand
-                    union(index, index + 1)
-                if i < m - 1 and grid[i + 1][j] == '1':
-                    union(index, index + n)
+                if grid[i][j] == '1':
+                    index = i * n + j
+                    if i < m - 1 and grid[i + 1][j] == "1":  # go down
+                        union(index, index + n)
+                    if j < n - 1 and grid[i][j + 1] == "1":
+                        union(index, index + 1)  # go right
 
-        return self.islands
+        return self.Islands
