@@ -22,3 +22,16 @@ class Solution:
                 i, j = i + di, j + dj
 
         return matrix
+
+# O(n**2) O(1)
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        A = [[0] * n for _ in range(n)]
+        i, j, di, dj = 0, 0, 0, 1
+        for k in range(n*n):
+            A[i][j] = k + 1
+            if A[(i+di)%n][(j+dj)%n]: # if not visited then make a right turn
+                di, dj = dj, -di
+            i += di
+            j += dj
+        return A
