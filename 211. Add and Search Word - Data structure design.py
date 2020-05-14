@@ -10,7 +10,7 @@ class WordDictionary:
         node['$'] = True
 
     def search(self, word: str) -> bool:
-        return self.searchNode(self.trie, word)
+        return self.searchNode(self.trie, word) # helper function is needed to pass in the current node information
 
     def searchNode(self, node, word: str) -> bool:
         for i, c in enumerate(word):
