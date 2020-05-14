@@ -1,3 +1,8 @@
+"""Ordered dictionaries are just like regular dictionaries but they remember the order that items were inserted. When iterating over an ordered dictionary, the items are returned in the order their keys were first added."""
+
+""" The popitem() method for ordered dictionaries returns and removes a (key, value) pair. The pairs are returned in LIFO order if last is true or FIFO order if false."""
+
+
 class LRUCache:
 
     def __init__(self, capacity: int):
