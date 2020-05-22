@@ -3,12 +3,12 @@
 def preorderTraversal(self, root):
     if root is None:
         return []
-    stack = [root]  # can we use deque([]) here, the answer is yes!
+    stack = [root]  # LIFO
     preorder = []
     while stack:
-        node = stack.pop()  # last in first out
+        node = stack.pop()  #
         preorder.append(node.val)
-        if node.right:  # that is why appending node.right first
+        if node.right:  # node.right first for later popout
             stack.append(node.right)
         if node.left:
             stack.append(node.left)
@@ -25,15 +25,27 @@ def preorderTraversal(self, root):
                     stack.append(p)
                     res.append(p.val)
                     p = p.left
-
                 p = stack.pop()
                 p = p.right
             return res
 
+# Solution 3: Recursion
+    class Solution:
+        def preorderTraversal(self, root):
+            res = []
+            self.dfs(root, res)
+            return res
+
+        def dfs(self, root, res):
+            if root:
+                res.append(root.val)
+                self.dfs(root.left, res)
+                self.dfs(root.right, res)
 
 
 
 # Inorder
+# Solution 1:
     class Solution:
         def inorderTraversal(self, root: TreeNode) -> List[int]:
             p, stack = root, []
@@ -42,27 +54,60 @@ def preorderTraversal(self, root):
                 while p:
                     stack.append(p)
                     p = p.left
-
                 p = stack.pop()
                 res.append(p.val)  # res append operation different with preorder traversal
                 p = p.right
             return res
 
 
+# Solution 2:
 class Solution:
-    """
-    @param root: The root of binary tree.
-    @return: Preorder in ArrayList which contains node values.
-    """
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        self.dfs(root, res)
+        return res
 
-    def inorderTraversal(self, root):
-        self.results = []
-        self.traverse(root)
-        return self.results
+    def dfs(self, root, res):
+        if root:
+            self.dfs(root.left, res)
+            res.append(root.val)
+            self.dfs(root.right, res)
 
-    def traverse(self, root):
-        if root is None:
-            return
-        self.traverse(root.left)
-        self.results.append(root.val)
-        self.traverse(root.right)
+
+# Postorder : left -> right -> root
+# Method 1:  Reverse modified preorder traversal: root -> left -> right  Time O(N) Space O(h)
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        stack, inorder_modified = [root], []
+        while stack:
+            node = stack.pop()
+            inorder_modified.append(node.val)
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+        return reversed(inorder_modified)
+
+
+# Mark with visited or not
+# Time: O(N), Space: O(h)
+class Solution:
+    # @param {TreeNode} root
+    # @return {integer[]}
+    def postorderTraversal(self, root):
+        postorder, stack = [], [(root, False)]
+        while stack:
+            node, visited = stack.pop()
+            if node:
+                if visited:
+                    # add to result if visited
+                    postorder.append(node.val)
+                else:
+                    # post-order
+                    stack.append((node, True))
+                    stack.append((node.right, False))
+                    stack.append((node.left, False))
+
+        return postorder
