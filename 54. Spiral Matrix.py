@@ -25,6 +25,26 @@ class Solution:
 
 
 # O(m*n) O(1)
+# if input could be changed
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix or not matrix[0]:
+            return []
+        m, n = len(matrix), len(matrix[0])
+        i, j, di, dj = 0, 0, 0, 1
+        ans = []
+        for _ in range(m * n):
+            ans.append(matrix[i][j])
+            matrix[i][j] = "float(inf)"  # mark it as visited
+            if matrix[(i + di) % m][(j + dj) % n] == "float(inf)":
+                di, dj = dj, -di
+            i, j = i + di, j + dj
+
+        return ans
+
+
+# O(m*n) O(1)
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         if not matrix or not matrix[0]:
