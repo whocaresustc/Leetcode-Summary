@@ -1,26 +1,25 @@
 # Similar to 20. Valid Parentheses
 
+# O(n) O(n)
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        indexes_to_remove = set()
+        index_to_remove = set()
         stack = []
+        ans = []
         for i, c in enumerate(s):
-            if c not in "()":
-                continue
             if c == "(":
                 stack.append(i)
-
-            else:  # c == ")"
+            elif c == ")":
                 if not stack:
-                    indexes_to_remove.add(i)
+                    index_to_remove.add(i)
                 else:
                     stack.pop()
 
-        # stack may not be empty, so need to union
-        indexes_to_remove = indexes_to_remove.union(set(stack))
+        # stack may not be empty meaning there is left parentheses remaining
+        index_to_remove = index_to_remove.union(set(stack))
 
-        ans = ""
         for i, c in enumerate(s):
-            if i not in indexes_to_remove:
-                ans += c
-        return ans
+            if i not in index_to_remove:
+                ans.append(c)  # don't use string concatenation here since it will be O(n + 1)
+
+        return "".join(ans)
