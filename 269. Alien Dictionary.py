@@ -1,3 +1,34 @@
+from collections import defaultdict, deque
+
+
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        indegree = {}
+        for word in words:
+            for c in word:
+                indegree[c] = 0
+
+        graph = defaultdict(set)
+        for word1, word2 in zip(words, words[1:]):
+            for c1, c2 in zip(word1, word2):
+                if c1 != c2:
+                    if c2 not in graph[c1]:
+                        graph[c1].add(c2)
+                        indegree[c2] += 1
+                    break
+            if c1 == c2 and len(word1) > len(word2):
+                return ""
+        # topological sort
+        queue = deque([c for c in indegree if indegree[c] == 0])
+        ans = []
+        while queue:
+            node = queue.popleft()
+            ans.append(node)
+            for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
+        return "".join(ans) if len(ans) == len(indegree) else ""
 
 # Key is building the in_degree process
 from collections import defaultdict, deque, Counter

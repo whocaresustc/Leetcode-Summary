@@ -1,3 +1,26 @@
+# Similar to 67. Add Binary
+
+class Solution:
+    def addStrings(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        nums1 = list(num1)
+        nums2 = list(num2)
+        ans, carry = "", 0
+
+        while nums1 or nums2 or carry:
+            if nums1:
+                carry += int(nums1.pop())
+            if nums2:
+                carry += int(nums2.pop())
+            carry, remain = divmod(carry, 10)
+            ans += str(remain)
+        return ans[::-1]
+
+
 # The ord() function returns an integer representing the Unicode character.
 
 class Solution:
