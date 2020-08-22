@@ -1,3 +1,5 @@
+# Good summary: https://leetcode.com/problems/binary-tree-right-side-view/solution/
+
 # Preorder
 # Solution 1:
 def preorderTraversal(self, root):

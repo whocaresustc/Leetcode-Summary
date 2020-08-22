@@ -19,3 +19,23 @@ class Solution:
                 if node.left:
                     queue.append(node.left)
         return ans
+
+
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+
+        if not root:
+            return []
+        ans = []
+        stack = [(root, 0)]
+        while stack:
+            node, level = stack.pop()
+            if level == len(ans):
+                ans.append(node.val)
+            if node.left:
+                stack.append((node.left, level + 1))
+            if node.right:
+                stack.append((node.right, level + 1))
+        return ans
+
+
