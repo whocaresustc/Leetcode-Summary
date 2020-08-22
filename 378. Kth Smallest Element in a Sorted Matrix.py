@@ -1,17 +1,18 @@
 # heapq
 # O(k*logn) O(k)
-import heapq
 
+from heapq import *
 
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
-        minHeap = [(row[0], 0, i) for i, row in enumerate(matrix)]
+        minHeap = [(row[0], 0, row_index) for row_index, row in enumerate(matrix)]
         n = len(matrix[0])
-        heapq.heapify(minHeap)
+        heapify(minHeap)
+
         for _ in range(k):
-            num, index, row = heapq.heappop(minHeap)
-            if index < n - 1:
-                heapq.heappush(minHeap, (matrix[row][index + 1], index + 1, row))
+            num, col_index, row_index = heapq.heappop(minHeap)
+            if col_index < n - 1:
+                heapq.heappush(minHeap, (matrix[row_index][col_index + 1], col_index + 1, row_index))
         return num
 
 
