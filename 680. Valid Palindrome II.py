@@ -1,18 +1,18 @@
-class Solution(object):
-    def validPalindrome(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        # Time: O(n)
-        # Space: O(n)
-        left, right = 0, len(s) - 1
 
-        while left < right:
-            if s[left] != s[right]:
-                one, two = s[left:right], s[left + 1:right + 1]
-                return one == one[::-1] or two == two[::-1]
+# O(n) O(1)
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        if len(s) <= 1:
+            return True
+        l, r = 0, len(s) - 1
+        while l < r:
+            if s[l] == s[r]:
+                l += 1
+                r -= 1
+            else:
+                return self.is_Palindrome(s[l + 1:r + 1]) or self.is_Palindrome(s[l:r])
 
-            left, right = left + 1, right - 1
+        return True # don't forget return True here
 
-        return True
+    def is_Palindrome(self, s):
+        return s == s[::-1]

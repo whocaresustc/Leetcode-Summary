@@ -9,7 +9,7 @@ class Solution:
             ans[i] = nums[i - 1] * ans[i - 1]
 
         R = 1
-        for i in reversed(range(n)):
+        for i in reversed(range(n)): # for i in range(n - 1, -1, -1):
             ans[i] = ans[i] * R
             R *= nums[i]
 

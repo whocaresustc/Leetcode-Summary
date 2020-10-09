@@ -27,3 +27,21 @@ class Solution:
         max_sum = float('-inf')
         max_gain(root)
         return max_sum
+
+
+class Solution:
+    def __init__(self):
+        self.global_gain = float("-inf")
+
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.max_gain(root)
+        return self.global_gain
+
+    def max_gain(self, node):  # return the max sum including node and max(left, right)
+        if not node:
+            return 0
+        left_gain = max(self.max_gain(node.left), 0)
+        right_gain = max(self.max_gain(node.right), 0)
+        cur_gain = left_gain + right_gain + node.val
+        self.global_gain = max(self.global_gain, cur_gain)
+        return node.val + max(left_gain, right_gain)

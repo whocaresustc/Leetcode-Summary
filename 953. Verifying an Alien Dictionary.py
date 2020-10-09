@@ -1,8 +1,26 @@
-class Solution(object):
+# Time O(NS) Space O(1): at most 26 characters N = len(words), S: max word len in the words
+
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        index_order = {c: i for i, c in enumerate(order)}
+        words = [[index_order[c] for c in word] for word in words]
+        return all(word1 < word2 for word1, word2 in zip(words, words[1:]))
+
+
+
+class Solution:
     def isAlienSorted(self, words, order):
-        m = {c: i for i, c in enumerate(order)}
-        words = [[m[c] for c in w] for w in words]
-        return all(w1 <= w2 for w1, w2 in zip(words, words[1:]))
+        ind = {c: i for i, c in enumerate(order)}
+        for a, b in zip(words, words[1:]):
+            if len(a) > len(b) and a[:len(b)] == b:
+                return False
+            for s1, s2 in zip(a, b):
+                if ind[s1] < ind[s2]:
+                    break
+                elif ind[s1] > ind[s2]:
+                    return False
+        return True
+
 
 
 class Solution(object):

@@ -34,3 +34,26 @@ class Solution:
 
         return dummy.next
 
+
+# Solution 2: heapq
+from heapq import *
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        dummy = head = ListNode(0)
+        queue = []
+        count = 0
+        for l in lists:
+            if l:
+                count += 1
+                heapq.heappush(queue, (l.val, count, l))  # push in the head for each list
+
+        while queue:
+            _, _, curr = heapq.heappop(queue)
+            head.next = curr
+            head = head.next
+            if curr.next:
+                count += 1
+                heapq.heappush(queue, (curr.next.val, count, curr.next))
+        return dummy.next
+

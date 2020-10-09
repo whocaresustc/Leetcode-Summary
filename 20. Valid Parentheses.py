@@ -1,12 +1,15 @@
 # O(n) O(n)
+
 class Solution:
     def isValid(self, s: str) -> bool:
-        mapping = {")":"(", "}":"{", "]":"["}
-        store = []
-        for char in s:
-            if char not in mapping:
-                store.append(char)
+        m = {")":"(", "}":"{", "]":"["}
+        stack = []
+        for c in s:
+            if c not in m:
+                stack.append(c)
             else:
-                if not store or store.pop() != mapping[char]: # equal and store must be empty
+                if not stack:
                     return False
-        return not store # exactly matching
+                elif stack.pop() != m[c]:
+                    return False
+        return not stack

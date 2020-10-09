@@ -12,6 +12,19 @@ class Solution:
         return [(x, y) for (dist, x, y) in heap]
 
 
+# O(NlgK)   O(k)
+from heapq import *
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        ans = []
+        for x, y in points:
+            dist = - (x**2 + y**2)
+            heappush(ans, (dist, x, y))
+            while len(ans) > K:
+                heappop(ans)
+        return [[x, y] for dist, x, y in ans]
+
+
 # klg(N) O(N)
 import heapq
 class Solution:
