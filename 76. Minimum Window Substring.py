@@ -30,9 +30,41 @@ class Solution:
 
             # update left
             if s[left] in target:
-                target[
-                    s[left]] += 1  # target is dynamic if left is excluded, then target is updated to reflect the change
+                target[s[left]] += 1  # target is dynamic if left is excluded, then target is updated to reflect the change
                 if target[s[left]] > 0:
                     matched -= 1
 
+        return res
+
+
+# More straightforward to template
+from collections import Counter
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not t or not s:
+            return ""
+
+        target = Counter(t)
+        left = 0
+        res = ""
+        matched = 0
+        minlength = float("inf")
+        for right in range(len(s)):
+            if s[right] in target:
+                target[s[right]] -= 1  # negative meaning extra characters in t
+                if target[s[right]] == 0:
+                    matched += 1
+
+            while left <= right and matched == len(target):  # <= not < for case "a" "a"
+                if right - left < minlength:
+                    minlength = right - left
+                    res = s[left:right + 1]
+
+                    # update left
+                if s[left] in target:
+                    target[s[left]] += 1
+                    if target[s[left]] > 0:
+                        matched -= 1
+                left += 1  # no matter s[left] in or not in target, always move it
         return res

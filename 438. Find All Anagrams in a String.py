@@ -3,19 +3,23 @@ from collections import Counter
 
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        left, right = 0, len(p) - 1
-        res = []
-        counter_p = Counter(p)
-        counter_s = Counter(s[:right])
-        for right in range(len(p) - 1, len(s)):
-            counter_s[s[right]] += 1
-            if counter_s == counter_p:
-                res.append(left)
+        L = 0
+        ans = []
 
-            # update left
-            counter_s[s[left]] -= 1
-            if counter_s[s[left]] == 0:
-                del counter_s[s[left]]
-            left += 1
+        Counter_p = Counter(p)
+        Counter_s = Counter()
 
-        return res
+        for R in range(len(s)):
+            Counter_s[s[R]] += 1
+
+            if R >= len(p) - 1:
+                if Counter_s == Counter_p:
+                    ans.append(L)
+
+                # Update left
+                Counter_s[s[L]] -= 1
+                if Counter_s[s[L]] == 0:
+                    del Counter_s[s[L]]
+                L += 1
+
+        return ans
